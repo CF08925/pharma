@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{dashboard/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section layout:fragment="dashboard">
+    <form class="container" method="post" th:object="${productCreateDto}" enctype="multipart/form-data">
+        <div class="form-group" >
+            <input th:field="*{name}" type="text" class="form-control" placeholder="Title">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
+
+        <div class="col-lg-4">
+            <!-- Photo URL Field -->
+            <div class="form-floating mb-3">
+                <!-- Hidden input for photoUrl -->
+                <input th:field="*{photoUrl}" class="form-control" id="photoUrl" type="hidden" placeholder="Enter photo URL" required />
+                <div th:if="${#fields.hasErrors('photoUrl')}" th:errors="*{photoUrl}" class="text-danger">Foto tələb olunur</div>
+
+                <!-- Custom File Upload Button -->
+                <label for="imageInput" class="custom-file-upload">
+                    <i class="fas fa-upload"></i>Fayl seç
+                </label>
+                <input type="file" name="image" id="imageInput" style="display: none;" onchange="document.getElementById('fileName').textContent = this.files[0] ? this.files[0].name : 'No file selected'" />
+
+                <!-- File name display -->
+                <div id="fileName" style="color: #666; font-size: 14px; margin-top: 8px;">Fayl seçilməyib</div>
+            </div>
+        </div>
+
+        <input type="submit" class="btn btn-success my-3" value="Create">
+    </form>
+</section>
+</body>
+</html>
