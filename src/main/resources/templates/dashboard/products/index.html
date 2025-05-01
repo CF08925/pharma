@@ -22,12 +22,13 @@
             <th>ID</th>
             <th>Name</th>
             <th>Photo</th>
-
-            <th>Description</th>
             <th>priceDiscount</th>
+            <th>description</th>
+
+
             <th>specification</th>
             <th>price</th>
-            <th>featured</th>
+
           </tr>
           </thead>
           <tfoot>
@@ -35,29 +36,31 @@
             <th>ID</th>
             <th>Name</th>
             <th>Photo</th>
-
-            <th>Description</th>
             <th>priceDiscount</th>
+            <th>description</th>
+
+
             <th>specification</th>
             <th>price</th>
-            <th>featured</th>
+
           </tr>
           </tfoot>
           <tbody>
           <tr th:each="product : ${products}">
             <td th:text="${product.id}">System Architect</td>
             <td th:text="${product.name}">Tiger Nixon</td>
-            <td th:text="${product.photoUrl}">Edinburgh</td>
-            <td th:text="${product.description}">System Architect</td>
+            <td th:src="${product.photoUrl}">Edinburgh</td>
+
             <td th:text="${product.priceDiscount}">System Architect</td>
-            <td th:text="${product.price}">Tiger Nixon</td>
-            <td th:text="${product.featured}">Edinburgh</td>
+            <td th:text="${product.description}">Tiger Nixon</td>
+
             <td th:text="${product.specification}">Edinburgh</td>
+            <td th:text="${product.price}">5</td>
             <td>
               <button>Edit</button>
 
 
-              <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#deleteModal' + ${project.id}">
+              <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#deleteModal' + ${product.id}">
                 Delete
               </button>
 

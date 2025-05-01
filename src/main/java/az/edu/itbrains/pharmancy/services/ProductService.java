@@ -9,6 +9,9 @@ import java.util.List;
 public interface ProductService {
 
 
+    static void createProduct(@Valid ProductCreateDto productCreateDto, MultipartFile image) {
+    }
+
     void delete(Long id);
 
     List<ProductHomeFeaturedDto> getHomeFeaturedProducts();

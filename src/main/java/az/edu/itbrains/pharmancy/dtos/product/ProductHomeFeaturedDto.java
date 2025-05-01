@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductHomeFeaturedDto{
+
+    private String description;
+    private boolean featured;
+    private String specification;
     private Long id;
     private String name;
     private Double price;

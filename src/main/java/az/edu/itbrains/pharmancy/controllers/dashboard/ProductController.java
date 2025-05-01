@@ -34,20 +34,20 @@ public class ProductController {
         return "dashboard/products/index.html";
     }
 
-//    @GetMapping("/Products/create")
-//    public String create(Model model){
-//        model.addAttribute("ProductCreateDto", new productCreateDto());
-//        return "dashboard/products/create.html";
-//    }
+    @GetMapping("/products/create")
+    public String create(Model model){
+        model.addAttribute("productCreateDto", new ProductCreateDto());
+        return "dashboard/products/create.html";
+    }
 
-//    @PostMapping("/Products/create")
-//    public String create(@Valid ProductCreateDto productCreateDto, BindingResult bindingResult, org.springframework.web.multipart.MultipartFile image){
-//        if(bindingResult.hasErrors()){
-//            return "/dashboard/products/create";
-//        }
-//        ProductService.createProduct(productCreateDto, image);
-//        return "redirect:/admin/products";
-//    }
+    @PostMapping("/products/create")
+    public String create(@Valid ProductCreateDto productCreateDto, BindingResult bindingResult, org.springframework.web.multipart.MultipartFile image){
+        if(bindingResult.hasErrors()){
+            return "/dashboard/products/create";
+        }
+        ProductService.createProduct(productCreateDto, image);
+        return "redirect:/admin/products";
+    }
 
     @PostMapping("/products/delete/{id}")
     public String delete(@PathVariable Long id){

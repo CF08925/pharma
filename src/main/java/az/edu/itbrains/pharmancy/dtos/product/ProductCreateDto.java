@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductCreateDto {
 
-    private String name;
-    private double priceDiscount;
-    private String specification;
     private String description;
+    private boolean featured;
+    private String specification;
+    private String name;
     private Double price;
-    private CategoryDto category;
+    private Double priceDiscount;
+    private String photoUrl;
 }
