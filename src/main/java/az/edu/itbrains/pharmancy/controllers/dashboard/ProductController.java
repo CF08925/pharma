@@ -1,7 +1,9 @@
 package az.edu.itbrains.pharmancy.controllers.dashboard;
 
 import az.edu.itbrains.pharmancy.dtos.product.ProductCreateDto;
+import az.edu.itbrains.pharmancy.dtos.product.ProductDto;
 import az.edu.itbrains.pharmancy.dtos.product.ProductHomeFeaturedDto;
+import az.edu.itbrains.pharmancy.services.CategoryService;
 import az.edu.itbrains.pharmancy.services.ProductService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
@@ -21,22 +23,25 @@ import java.util.List;
 public class ProductController {
    private final ProductService productService;
    private final ModelMapper modelMapper;
+   private final CategoryService categoryService;
 
-    public ProductController(ProductService productService, ModelMapper modelMapper) {
+    public ProductController(ProductService productService, ModelMapper modelMapper, CategoryService categoryService) {
         this.productService = productService;
         this.modelMapper = modelMapper;
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/products")
     public String Products(Model model){
-        List<ProductHomeFeaturedDto> products = productService.getHomeFeaturedProducts();
+        List<ProductDto> products = productService.getAllProducts();
         model.addAttribute("products", products);
         return "dashboard/products/index.html";
     }
 
     @GetMapping("/products/create")
-    public String create(Model model){
+    public String create(Model model) {
         model.addAttribute("productCreateDto", new ProductCreateDto());
+        model.addAttribute("categories", categoryService.getCategories());  // Added categories dropdown data
         return "dashboard/products/create.html";
     }
 
@@ -45,7 +50,7 @@ public class ProductController {
         if(bindingResult.hasErrors()){
             return "/dashboard/products/create";
         }
-        ProductService.createProduct(productCreateDto, image);
+        productService.createProduct(productCreateDto,image);
         return "redirect:/admin/products";
     }
 

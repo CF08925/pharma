@@ -2,20 +2,35 @@ package az.edu.itbrains.pharmancy.dtos.product;
 
 
 import az.edu.itbrains.pharmancy.dtos.category.CategoryDto;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductCreateDto {
 
-    private String description;
-    private boolean featured;
-    private String specification;
     private String name;
-    private Double price;
-    private Double priceDiscount;
+    private String description;
+    private String specification;
+    private double price;
+    private double priceDiscount;
+    private boolean featured;
     private String photoUrl;
+
+    @NotNull(message = "Category is required")  // Added validation
+    private Long categoryId;  // Changed from Category to Long
+
+    // Getters & Setters (make sure to update for categoryId)
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 }

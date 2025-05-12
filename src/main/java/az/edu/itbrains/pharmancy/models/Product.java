@@ -18,18 +18,19 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-   private String description;
+    private String description;
     private String name;
     private String orderingInfo;
-    private double priceDiscount;
     private String specification;
-    private double price;
-    private  int quantity;
+    private int quantity;
     private Date createData;
     private Date updateData;
     private boolean featured;
     private String imageUrl;
 
+    // Changed to Long (cents)
+    private Long price;          // Regular price (e.g., $19.99 = 1999)
+    private Long priceDiscount;  // Discount price (e.g., $15.99 = 1599)
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -37,4 +38,25 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     private List<Order> orders;
+
+    // Price formatting helpers
+    public String getFormattedPrice() {
+        return formatCents(price);
+    }
+
+    public String getFormattedDiscountPrice() {
+        return priceDiscount != null ? formatCents(priceDiscount) : "";
+    }
+
+    public Long getCurrentPrice() {
+        return priceDiscount != null ? priceDiscount : price;
+    }
+
+    public boolean hasDiscount() {
+        return priceDiscount != null && priceDiscount < price;
+    }
+
+    private String formatCents(Long cents) {
+        return String.format("%d.%02d", cents / 100, cents % 100);
+    }
 }

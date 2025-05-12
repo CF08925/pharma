@@ -9,8 +9,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
 
-    @Query(value = "SELECT * FROM products WHERE featured = true ORDER BY id DESC LIMIT 8", nativeQuery = true)
-    List<Product> findByFeaturedTrue();
+    @Query(value = "SELECT * FROM products",nativeQuery = true)
+    List<Product> findAllProducts();
 
 
 
@@ -18,4 +18,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findTop8ByOrderByIdDesc();
 
     List<Product> findTop5ByCategoryIdOrderByIdDesc(Long categoryId);
+
+
+    @Query(value = "SELECT * FROM products WHERE featured = true ORDER BY id DESC LIMIT 8", nativeQuery = true)
+    List<Product> findByFeaturedTrue();
+
+    List<Product> findByCategoryId(Long categoryId);
 }

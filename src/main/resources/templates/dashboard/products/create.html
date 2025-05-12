@@ -1,36 +1,75 @@
 <!DOCTYPE html>
-<html   xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{dashboard/layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{dashboard/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Create Product</title>
 </head>
 <body>
 <section layout:fragment="dashboard">
     <form class="container" method="post" th:object="${productCreateDto}" enctype="multipart/form-data">
-        <div class="form-group" >
+        <div class="form-group">
+            <!-- Category Dropdown (Fixed) -->
+            <label>Category</label>
+            <select th:field="*{categoryId}" class="form-control" required>
+                <option value="">-- Select Category --</option>
+                <option th:each="category : ${categories}"
+                        th:value="${category.id}"
+                        th:text="${category.name}">
+                </option>
+            </select>
+            <span th:if="${#fields.hasErrors('categoryId')}"
+                  th:errors="*{categoryId}"
+                  class="text-danger"></span>
+
+            <!-- Product Name -->
+            <label>Product Name</label>
             <input th:field="*{name}" type="text" class="form-control" placeholder="Title">
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-            <input th:field="*{description}" type="text" class="form-control" placeholder="description">
-            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
+
+            <!-- Description -->
+            <label>Description</label>
+            <input th:field="*{description}" type="text" class="form-control" placeholder="Description">
+            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
+
+            <!-- Specification -->
+            <label>Specification</label>
+            <input th:field="*{specification}" type="text" class="form-control" placeholder="Specification">
+            <span th:if="${#fields.hasErrors('specification')}" th:errors="*{specification}" class="text-danger"></span>
+
+            <!-- Price -->
+            <label>Price</label>
+            <input th:field="*{price}" type="number" step="0.01" class="form-control" placeholder="Price">
+            <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger"></span>
+
+            <!-- Discount Price -->
+            <label>Discount Price</label>
+            <input th:field="*{priceDiscount}" type="number" step="0.01" class="form-control" placeholder="Discount Price">
+            <span th:if="${#fields.hasErrors('priceDiscount')}" th:errors="*{priceDiscount}" class="text-danger"></span>
+
+            <!-- Featured -->
+            <label>Featured Product</label>
+            <select th:field="*{featured}" class="form-control">
+                <option value="true">Yes</option>
+                <option value="false">No</option>
+            </select>
+            <span th:if="${#fields.hasErrors('featured')}" th:errors="*{featured}" class="text-danger"></span>
         </div>
 
+        <!-- Image Upload -->
         <div class="col-lg-4">
-            <!-- Photo URL Field -->
             <div class="form-floating mb-3">
-                <!-- Hidden input for photoUrl -->
-                <input th:field="*{photoUrl}" class="form-control" id="photoUrl" type="hidden" placeholder="Enter photo URL" required />
-                <div th:if="${#fields.hasErrors('photoUrl')}" th:errors="*{photoUrl}" class="text-danger">Foto tələb olunur</div>
+                <input th:field="*{photoUrl}" class="form-control" id="photoUrl" type="hidden" required />
+                <div th:if="${#fields.hasErrors('photoUrl')}" th:errors="*{photoUrl}" class="text-danger">Photo is required</div>
 
-                <!-- Custom File Upload Button -->
                 <label for="imageInput" class="custom-file-upload">
-                    <i class="fas fa-upload"></i>Fayl seç
+                    <i class="fas fa-upload"></i> Choose File
                 </label>
-                <input type="file" name="image" id="imageInput" style="display: none;" onchange="document.getElementById('fileName').textContent = this.files[0] ? this.files[0].name : 'No file selected'" />
+                <input type="file" name="image" id="imageInput" style="display: none;"
+                       onchange="document.getElementById('fileName').textContent = this.files[0] ? this.files[0].name : 'No file selected'" />
 
-                <!-- File name display -->
-                <div id="fileName" style="color: #666; font-size: 14px; margin-top: 8px;">Fayl seçilməyib</div>
+                <div id="fileName" style="color: #666; font-size: 14px; margin-top: 8px;">No file selected</div>
             </div>
         </div>
 

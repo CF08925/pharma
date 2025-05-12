@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryCreateDto {
     private String name;
-    private String photoUrl;
+
 }

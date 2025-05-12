@@ -1,10 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{dashboard/layout}">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<section layout:fragment="dashboard">
+    <form class="container" method="post" th:object="${categoryCreateDto}" enctype="multipart/form-data">
+        <div class="form-group" >
+            <input th:field="*{name}" type="text" class="form-control" placeholder="Title">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        </div>
 
+
+
+        <input type="submit" class="btn btn-success my-3" value="Create">
+    </form>
+</section>
 </body>
 </html>

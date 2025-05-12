@@ -51,25 +51,19 @@
                             <li class="active"><a href="/">Home</a></li>
                             <li><a href="/shop">Store</a></li>
                             <li class="has-children">
-                                <a href="#">Dropdown</a>
+                                <a href="#">Categories</a>
                                 <ul class="dropdown">
-                                    <li><a href="#">Supplements</a></li>
-                                    <li class="has-children">
-                                        <a href="#">Vitamins</a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">Supplements</a></li>
-                                            <li><a href="#">Vitamins</a></li>
-                                            <li><a href="#">Diet &amp; Nutrition</a></li>
-                                            <li><a href="#">Tea &amp; Coffee</a></li>
-                                        </ul>
+                                    <li th:each="category : ${categories}">
+                                        <a th:href="@{'/shop?categoryId=' + ${category.id}}"
+                                           th:text="${category.name}"></a>
                                     </li>
-                                    <li><a href="#">Diet &amp; Nutrition</a></li>
-                                    <li><a href="#">Tea &amp; Coffee</a></li>
-
                                 </ul>
                             </li>
                             <li><a href="/about">About</a></li>
                             <li><a href="/contact">Contact</a></li>
+                            <!-- NEW: Add Receipt Link -->
+                            <li><a href="/receipt">Receipt</a></li>
+
                         </ul>
                     </nav>
                 </div>

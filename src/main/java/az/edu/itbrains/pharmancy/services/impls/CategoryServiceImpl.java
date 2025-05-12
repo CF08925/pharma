@@ -1,8 +1,6 @@
 package az.edu.itbrains.pharmancy.services.impls;
 
-import az.edu.itbrains.pharmancy.dtos.category.CategoryDashboardDto;
-import az.edu.itbrains.pharmancy.dtos.category.CategoryHomeDto;
-import az.edu.itbrains.pharmancy.dtos.category.CategoryUpdateDto;
+import az.edu.itbrains.pharmancy.dtos.category.*;
 import az.edu.itbrains.pharmancy.models.Category;
 import az.edu.itbrains.pharmancy.repositories.CategoryRepository;
 import az.edu.itbrains.pharmancy.services.CategoryService;
@@ -32,8 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDashboardDto> getDashboardCategories() {
-
-        return List.of();
+        List<Category> findCategories = categoryRepository.findAll();
+        return null;
     }
 
     @Override
@@ -44,6 +42,28 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void updateCategory(Long id, CategoryUpdateDto categoryUpdateDto) {
 
+    }
+
+    @Override
+    public List<CategoryDto> getCategories() {
+        List<Category> findCategories = categoryRepository.findAll();
+        List<CategoryDto> categoryDtos = findCategories.stream().map(category -> modelMapper.map(category , CategoryDto.class)).collect(Collectors.toList());
+        return categoryDtos;
+    }
+
+    @Override
+    public void createCategory(CategoryCreateDto categoryCreateDto) {
+        Category category = new Category();
+        category.setName(categoryCreateDto.getName());
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (categoryRepository.existsById(id)) {
+            categoryRepository.deleteById(id);
+        } else {
+            throw new IllegalArgumentException("category with ID " + id + " not found");
+        }
     }
 
 

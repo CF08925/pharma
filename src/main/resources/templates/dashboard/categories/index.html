@@ -16,13 +16,12 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <a href="/admin/about/create">Create</a>
+                    <a href="/admin/categories/create">Create</a>
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Abouttext</th>
-                        <th>Photo</th>
-                        <th>Video</th>
+                        <th>name</th>
+
 
 
                     </tr>
@@ -30,29 +29,26 @@
                     <tfoot>
                     <tr>
                         <th>ID</th>
-                        <th>Abouttext</th>
-                        <th>Photo</th>
-                        <th>Video</th>
+                        <th>name</th>
 
                     </tr>
                     </tfoot>
                     <tbody>
-                    <tr th:each="about : ${abouts}">
-                        <td th:text="${about.id}">System Architect</td>
-                        <td th:text="${about.aboutText}">Tiger Nixon</td>
-                        <td th:src="${about.photoUrl}">Edinburgh</td>
-                        <td th:text="${about.videoUrl}"> f</td>
+                    <tr th:each="category : ${categories}">
+                        <td th:text="${category.id}">System Architect</td>
+                        <td th:text="${category.name}">Tiger Nixon</td>
+
 
 
                         <td>
                             <button>Edit</button>
 
 
-                            <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#deleteModal' + ${about.id}">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#deleteModal' + ${category.id}">
                                 Delete
                             </button>
 
-                            <div class="modal fade" th:id="'deleteModal' + ${about.id}"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                            <div class="modal fade" th:id="'deleteModal' + ${category.id}"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -63,7 +59,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <form th:action="'/admin/about/delete/'+${about.id}" method="post">
+                                            <form th:action="'/admin/category/delete/'+${category.id}" method="post">
                                                 <button type="submit" class="btn btn-danger">Delete</button>
                                             </form>
                                         </div>

@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{dashboard/layout}">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Create Product</title>
 </head>
 <body>
-$END$
+<section layout:fragment="dashboard">
+    <form class="container" method="post" th:object="${aboutCreateDto}" enctype="multipart/form-data">
+        <div class="form-group">
+
+
+            <!-- Product Name -->
+            <label>About</label>
+            <input th:field="*{aboutText}" type="text" class="form-control" placeholder="AboutText">
+            <span th:if="${#fields.hasErrors('aboutText')}" th:errors="*{aboutText}" class="text-danger"></span>
+            <input th:field="*{videoUrl}" type="text" class="form-control" placeholder="videoUrl">
+            <span th:if="${#fields.hasErrors('videoUrl')}" th:errors="*{videoUrl}" class="text-danger"></span>
+
+
+
+        <!-- Image Upload -->
+        <div class="col-lg-4">
+            <div class="form-floating mb-3">
+                <input th:field="*{photoUrl}" class="form-control" id="photoUrl" type="hidden" required />
+                <div th:if="${#fields.hasErrors('photoUrl')}" th:errors="*{photoUrl}" class="text-danger">Photo is required</div>
+
+                <label for="imageInput" class="custom-file-upload">
+                    <i class="fas fa-upload"></i> Choose File
+                </label>
+                <input type="file" name="image" id="imageInput" style="display: none;"
+                       onchange="document.getElementById('fileName').textContent = this.files[0] ? this.files[0].name : 'No file selected'" />
+
+                <div id="fileName" style="color: #666; font-size: 14px; margin-top: 8px;">No file selected</div>
+            </div>
+        </div>
+
+        <input type="submit" class="btn btn-success my-3" value="Create">
+    </form>
+</section>
 </body>
 </html>

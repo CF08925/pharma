@@ -25,11 +25,11 @@
     <div class="site-section bg-light custom-border-bottom" data-aos="fade">
         <div class="container">
             <div class="row mb-5">
-                <div class="col-md-6">
+                <div th:each="about : ${abouts}"class="col-md-6">
                     <div class="block-16">
                         <figure>
-                            <img src="images/bg_1.jpg" alt="Image placeholder" class="img-fluid rounded">
-                            <a href="https://vimeo.com/channels/staffpicks/93951774" class="play-button popup-vimeo"><span
+                            <img th:src="${about.photoUrl}" alt="Image placeholder" class="img-fluid rounded">
+                            <a th:src="${about.videoUrl}" href="https://vimeo.com/channels/staffpicks/93951774" class="play-button popup-vimeo"><span
                                     class="icon-play"></span></a>
 
                         </figure>
