@@ -55,6 +55,7 @@ public class CategoryServiceImpl implements CategoryService {
     public void createCategory(CategoryCreateDto categoryCreateDto) {
         Category category = new Category();
         category.setName(categoryCreateDto.getName());
+        categoryRepository.save(category);
     }
 
     @Override

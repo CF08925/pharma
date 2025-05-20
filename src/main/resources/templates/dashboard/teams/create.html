@@ -8,16 +8,26 @@
 </head>
 <body>
 <section layout:fragment="dashboard">
-    <form class="container" method="post" th:object="${aboutCreateDto}" enctype="multipart/form-data">
+    <form class="container" method="post" th:object="${teamCreateDto}" enctype="multipart/form-data">
         <div class="form-group">
 
+            <!-- Name -->
+            <label>Name</label>
+            <input th:field="*{name}" type="text" class="form-control" placeholder="Title">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger"></span>
 
-            <!-- Product Name -->
-            <label>Testimonial</label>
-            <input th:field="*{aboutText}" type="text" class="form-control" placeholder="AboutText">
-            <span th:if="${#fields.hasErrors('aboutText')}" th:errors="*{aboutText}" class="text-danger"></span>
-            <input th:field="*{videoUrl}" type="text" class="form-control" placeholder="videoUrl">
-            <span th:if="${#fields.hasErrors('videoUrl')}" th:errors="*{videoUrl}" class="text-danger"></span>
+            <label>Surname</label>
+            <input th:field="*{surname}" type="text" class="form-control" placeholder="surname">
+            <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="text-danger"></span>
+            <!-- Description -->
+            <label>About</label>
+            <input th:field="*{about}" type="text" class="form-control" placeholder="about">
+            <span th:if="${#fields.hasErrors('about')}" th:errors="*{about}" class="text-danger"></span>
+
+            <!-- position -->
+            <label>Position</label>
+            <input th:field="*{position}" type="text" class="form-control" placeholder="position">
+            <span th:if="${#fields.hasErrors('position')}" th:errors="*{position}" class="text-danger"></span>
 
 
 

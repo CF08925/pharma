@@ -49,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
             product.setPrice((long) productCreateDto.getPrice());
             product.setPriceDiscount((long) productCreateDto.getPriceDiscount());
             product.setFeatured(productCreateDto.isFeatured());
-            product.setImageUrl(photoUrl);
+            product.setPhotoUrl(photoUrl);
             product.setCreateData(new Date());
 
             productRepository.save(product);
@@ -120,6 +120,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Long productId) {
         return null;
+    }
+
+    @Override
+    public Product findProductById(Long productId) {
+        return productRepository.findById(productId).orElseThrow();
     }
 }
 

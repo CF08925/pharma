@@ -5,9 +5,10 @@ import az.edu.itbrains.pharmancy.dtos.about.AboutDto;
 import az.edu.itbrains.pharmancy.dtos.category.CategoryHomeDto;
 import az.edu.itbrains.pharmancy.dtos.product.ProductDto;
 import az.edu.itbrains.pharmancy.dtos.product.ProductHomeFeaturedDto;
-import az.edu.itbrains.pharmancy.services.AboutService;
-import az.edu.itbrains.pharmancy.services.CategoryService;
-import az.edu.itbrains.pharmancy.services.ProductService;
+import az.edu.itbrains.pharmancy.dtos.team.TeamDto;
+import az.edu.itbrains.pharmancy.dtos.testimonial.TestimonialDto;
+import az.edu.itbrains.pharmancy.models.Testimonial;
+import az.edu.itbrains.pharmancy.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +22,15 @@ public class HomeController {
     private final CategoryService categoryService;
     private final ProductService productService;
     private final AboutService aboutService;
+    private final TestimonialService testimonialService;
+    private final TeamService teamService;
 
-
-
-    public HomeController(CategoryService categoryService, ProductService productService, AboutService aboutService) {
+    public HomeController(CategoryService categoryService, ProductService productService, AboutService aboutService, TestimonialService testimonialService, TeamService teamService) {
         this.categoryService = categoryService;
         this.productService = productService;
         this.aboutService = aboutService;
+        this.testimonialService = testimonialService;
+        this.teamService = teamService;
     }
 
 
@@ -35,7 +38,8 @@ public class HomeController {
     public String index(Model model){
         List<ProductHomeFeaturedDto> productHomeFeaturedDtoList = productService.getHomeFeaturedProducts();
         List<CategoryHomeDto> categories = categoryService.getHomeCategories();
-
+        List<TestimonialDto> testimonialDtos = testimonialService.getTestimonials();
+        model.addAttribute("testimonials", testimonialDtos);
         model.addAttribute("featuredProducts", productHomeFeaturedDtoList);
         model.addAttribute("categories", categories);
 
@@ -49,18 +53,20 @@ public class HomeController {
         model.addAttribute("categories", categories);
     }
 
-//    @GetMapping("/shop")
-//    public String shop(Model model){
-//        List<ProductDto> productDtoList = productService.getAllProducts();
-//        model.addAttribute("products", productDtoList);
-//        return "shop.html";
-//    }
+
 
     @GetMapping("/about")
     public String about(Model model){
         List<AboutDto> aboutDtoList = aboutService.getAbout();
+        List<TeamDto> teamDtos = teamService.getTeams();
         model.addAttribute("abouts", aboutDtoList);
+        model.addAttribute("teams", teamDtos);
         return "about.html";
+    }
+
+    @GetMapping("/receipt")
+    public String receipt(){
+        return "receipt.html";
     }
 
 }

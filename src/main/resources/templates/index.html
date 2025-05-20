@@ -4,22 +4,6 @@
         layout:decorate="~{layout}">
 <head>
     <title>Pharma &mdash; Colorlib Template</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
-    <link rel="stylesheet" href="fonts/icomoon/style.css">
-
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/magnific-popup.css">
-    <link rel="stylesheet" href="/css/jquery-ui.css">
-    <link rel="stylesheet" href="/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
-
-
-    <link rel="stylesheet" href="/css/aos.css">
-
-    <link rel="stylesheet" href="/css/style.css">
 
 </head>
 
@@ -95,8 +79,8 @@
                 <div th:each="product : ${featuredProducts}" class="col-sm-6 col-lg-4 text-center item mb-4">
                     <span class="tag">Sale</span>
                     <a  th:href="${'/shop-single/'+product.id}"> <img th:src="${product.photoUrl}" alt="Image"></a>
-                    <h3 class="text-dark"><a href="/shop-single">Bioderma</a></h3>
-                    <p th:text="${product.price}"class="price"><del>95.00</del> &mdash; $55.00</p>
+                    <h3 class="text-dark" th:text="${product.name}"><a href="/shop-single">Bioderma</a></h3>
+                    <p class="price" ><del th:text="${product.price}">95.00</del > &mdash; $55.00</p>
                 </div>
 
             </div>
@@ -122,47 +106,16 @@
                 <div class="col-md-12 block-3 products-wrap">
                     <div class="nonloop-block-3 no-direction owl-carousel">
 
-                        <div class="testimony">
+                        <div th:each="testimonial : ${testimonials}" class="testimony" >
                             <blockquote>
-                                <img src="images/person_1.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
-                                <p>&ldquo;Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo omnis voluptatem consectetur quam tempore obcaecati maiores voluptate aspernatur iusto eveniet, placeat ab quod tenetur ducimus. Minus ratione sit quaerat unde.&rdquo;</p>
+                                <img th:src="${testimonial.photoUrl}" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
+                                <p th:text="${testimonial.about}">&ldquo;Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo omnis voluptatem consectetur quam tempore obcaecati maiores voluptate aspernatur iusto eveniet, placeat ab quod tenetur ducimus. Minus ratione sit quaerat unde.&rdquo;</p>
                             </blockquote>
 
-                            <p>&mdash; Kelly Holmes</p>
+                            <p th:text="${testimonial.name}">&mdash; Kelly Holmes</p>
                         </div>
 
-                        <div class="testimony">
-                            <blockquote>
-                                <img src="images/person_2.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
-                                <p>&ldquo;Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo omnis voluptatem consectetur quam tempore
-                                    obcaecati maiores voluptate aspernatur iusto eveniet, placeat ab quod tenetur ducimus. Minus ratione sit quaerat
-                                    unde.&rdquo;</p>
-                            </blockquote>
 
-                            <p>&mdash; Rebecca Morando</p>
-                        </div>
-
-                        <div class="testimony">
-                            <blockquote>
-                                <img src="images/person_3.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
-                                <p>&ldquo;Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo omnis voluptatem consectetur quam tempore
-                                    obcaecati maiores voluptate aspernatur iusto eveniet, placeat ab quod tenetur ducimus. Minus ratione sit quaerat
-                                    unde.&rdquo;</p>
-                            </blockquote>
-
-                            <p>&mdash; Lucas Gallone</p>
-                        </div>
-
-                        <div class="testimony">
-                            <blockquote>
-                                <img src="images/person_4.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
-                                <p>&ldquo;Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nemo omnis voluptatem consectetur quam tempore
-                                    obcaecati maiores voluptate aspernatur iusto eveniet, placeat ab quod tenetur ducimus. Minus ratione sit quaerat
-                                    unde.&rdquo;</p>
-                            </blockquote>
-
-                            <p>&mdash; Andrew Neel</p>
-                        </div>
 
                     </div>
                 </div>

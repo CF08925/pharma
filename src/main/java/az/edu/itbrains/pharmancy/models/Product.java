@@ -26,7 +26,7 @@ public class Product {
     private Date createData;
     private Date updateData;
     private boolean featured;
-    private String imageUrl;
+    private String photoUrl;
 
     // Changed to Long (cents)
     private Long price;          // Regular price (e.g., $19.99 = 1999)

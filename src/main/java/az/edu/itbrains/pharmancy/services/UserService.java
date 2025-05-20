@@ -8,4 +8,6 @@ public interface UserService {
     boolean registerUser(@Valid RegisterDto registerDto);
 
     User findByUsername(String username);
+
+    User findUserByEmail(String name);
 }

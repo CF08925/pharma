@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html   xmlns:th="http://www.thymeleaf.org"
+        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{dashboard/layout}">
+<head>
+  <title>Page Title Goes Here</title>
+</head>
+
+<body>
+<section layout:fragment="dashboard">
+  <!-- DataTales Example -->
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+          <a href="/admin/teams/create">Create</a>
+          <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Position</th>
+            <th>Photo</th>
+            <th>about</th>
+
+
+          </tr>
+          </thead>
+          <tfoot>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Position</th>
+            <th>Photo</th>
+            <th>about</th>
+
+          </tr>
+          </tfoot>
+          <tbody>
+          <tr th:each="team : ${teams}">
+            <td th:text="${team.id}">System Architect</td>
+            <td th:text="${team.name}">Tiger Nixon</td>
+            <td th:text="${team.surname}">Edinburgh</td>
+            <td th:text="${team.position}">5</td>
+            <td th:src="${team.photoUrl}">System Architect</td>
+            <td th:text="${team.about}">Tiger Nixon</td>
+
+
+            <td>
+              <button>Edit</button>
+
+
+              <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#deleteModal' + ${team.id}">
+                Delete
+              </button>
+
+              <div class="modal fade" th:id="'deleteModal' + ${team.id}"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to delete this item?</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <form th:action="'/admin/teams/delete/'+${team.id}" method="post">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+</body>
+
+</html>
