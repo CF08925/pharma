@@ -51,10 +51,7 @@ public class PharmancyController {
         return "contact.html";
     }
 
-@GetMapping("/checkout")
-    public String checkout(){
-        return "checkout.html";
-}
+
 
 
 
