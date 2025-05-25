@@ -59,7 +59,27 @@ public class BasketServiceImpl implements BasketService {
         return basketDtoList;
     }
 
+    @Override
+    public void clearUserBasket(String userEmail) {
+        try {
+            User user = userService.findUserByEmail(userEmail);
+            List<Basket> userBaskets = basketRepository.findByUserId(user.getId());
+            basketRepository.deleteAll(userBaskets);
+        } catch (Exception e) {
+            throw new RuntimeException("Error clearing basket: " + e.getMessage());
+        }
+    }
 
+    @Override
+    public boolean hasReceiptRequiredProducts() {
+        try {
+            List<BasketDto> basketItems = getUserBaskets();
+            return basketItems.stream()
+                    .anyMatch(item -> item.getProduct().isRequiresReceipt());
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 
 }

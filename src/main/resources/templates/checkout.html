@@ -1,10 +1,66 @@
 <!DOCTYPE html>
-<html   xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
 <head>
-
-
+    <title>Checkout</title>
+    <style>
+        .receipt-section {
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #fff3cd;
+        }
+        .receipt-required-badge {
+            background-color: #dc3545;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+        .receipt-upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 10px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .receipt-upload-area:hover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+        .receipt-upload-area.dragover {
+            border-color: #007bff;
+            background-color: #f8f9fa;
+        }
+        .receipt-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .receipt-preview-item {
+            position: relative;
+            display: inline-block;
+        }
+        .receipt-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+        .receipt-preview-name {
+            font-size: 0.75em;
+            text-align: center;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,7 +69,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 mb-0">
-                    <a href="index.html">Home</a> <span class="mx-2 mb-0">/</span>
+                    <a href="/">Home</a> <span class="mx-2 mb-0">/</span>
                     <strong class="text-black">Checkout</strong>
                 </div>
             </div>
@@ -22,191 +78,290 @@
 
     <div class="site-section">
         <div class="container">
+            <!-- Display errors if any -->
+            <div class="row mb-3" th:if="${error != null}">
+                <div class="col-md-12">
+                    <div class="alert alert-danger" th:text="${error}">Error message</div>
+                </div>
+            </div>
+
+            <!-- Receipt Required Notice -->
+            <div class="row mb-3" th:if="${hasReceiptRequiredProducts}">
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <strong>Receipt Required!</strong> Some products in your cart require a medical receipt. Please upload your receipt below.
+                    </div>
+                </div>
+            </div>
+
             <div class="row mb-5">
                 <div class="col-md-12">
                     <div class="bg-light rounded p-3">
-                        <p class="mb-0">Returning customer? <a href="#" class="d-inline-block">Click here</a> to login</p>
+                        <p class="mb-0">Returning customer? <a href="/login" class="d-inline-block">Click here</a> to login</p>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6 mb-5 mb-md-0">
-                    <h2 class="h3 mb-3 text-black">Billing Details</h2>
-                    <div class="p-3 p-lg-5 border">
 
-                        <div class="form-group row">
-                            <div class="col-md-6">
-                                <label for="c_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_fname" name="c_fname">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="c_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_lname" name="c_lname">
-                            </div>
-                        </div>
-
-
-
-                        <div class="form-group row">
-                            <div class="col-md-12">
-                                <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
-                        </div>
-
-                        <div class="form-group row">
-
-                            <div class="col-md-6">
-                                <label for="c_postal_zip" class="text-black">Posta / Zip <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_postal_zip" name="c_postal_zip">
-                            </div>
-                        </div>
-
-                        <div class="form-group row mb-5">
-                            <div class="col-md-6">
-                                <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_email_address" name="c_email_address">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account"
-                                   role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1"
-                                                                                                                id="c_create_account"> Create an account?</label>
-                            <div class="collapse" id="create_an_account">
-                                <div class="py-2">
-                                    <p class="mb-3">Create an account by entering the information below. If you are a returning customer
-                                        please login at the top of the page.</p>
-                                    <div class="form-group">
-                                        <label for="c_account_password" class="text-black">Account Password</label>
-                                        <input type="email" class="form-control" id="c_account_password" name="c_account_password"
-                                               placeholder="">
-                                    </div>
+            <!-- Checkout form starts here -->
+            <form th:action="@{/checkout/process}" method="post" th:object="${checkoutDto}" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6 mb-5 mb-md-0">
+                        <h2 class="h3 mb-3 text-black">Billing Details</h2>
+                        <div class="p-3 p-lg-5 border">
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="firstName" class="text-black">First Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="lastName" class="text-black">Last Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
                                 </div>
                             </div>
-                        </div>
 
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <label for="street" class="text-black">Address <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="street" th:field="*{street}" placeholder="Street address" required>
+                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                <input type="text" class="form-control" th:field="*{apartment}" placeholder="Apartment, suite, unit etc. (optional)">
+                            </div>
 
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="city" class="text-black">City <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="city" th:field="*{city}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="state" class="text-black">State <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="state" th:field="*{state}" required>
+                                </div>
+                            </div>
 
-                        <div class="form-group">
-                            <label for="c_order_notes" class="text-black">Order Notes</label>
-                            <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"
-                                      placeholder="Write your notes here..."></textarea>
-                        </div>
+                            <div class="form-group row">
+                                <div class="col-md-6">
+                                    <label for="zipCode" class="text-black">Postal / Zip <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="zipCode" th:field="*{zipCode}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="country" class="text-black">Country <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="country" th:field="*{country}" required>
+                                </div>
+                            </div>
 
-                    </div>
-                </div>
-                <div class="col-md-6">
+                            <div class="form-group row mb-5">
+                                <div class="col-md-6">
+                                    <label for="email" class="text-black">Email Address <span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" id="email" th:field="*{email}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="text-black">Phone <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="phone" th:field="*{phone}" placeholder="Phone Number" required>
+                                </div>
+                            </div>
 
-                    <div class="row mb-5">
-                        <div class="col-md-12">
-                            <h2 class="h3 mb-3 text-black">Coupon Code</h2>
-                            <div class="p-3 p-lg-5 border">
+                            <!-- Receipt Upload Section (only shown if required) -->
+                            <div th:if="${hasReceiptRequiredProducts}" class="receipt-section">
+                                <h4 class="h5 mb-3 text-black">
+                                    <i class="fas fa-receipt"></i> Medical Receipt Upload
+                                    <span class="receipt-required-badge">REQUIRED</span>
+                                </h4>
 
-                                <label for="c_code" class="text-black mb-3">Enter your coupon code if you have one</label>
-                                <div class="input-group w-75">
-                                    <input type="text" class="form-control" id="c_code" placeholder="Coupon Code" aria-label="Coupon Code"
-                                           aria-describedby="button-addon2">
-                                    <div class="input-group-append">
-                                        <button class="btn btn-primary btn-sm px-4" type="button" id="button-addon2">Apply</button>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="receiptFirstName" class="text-black">Patient First Name</label>
+                                        <input type="text" class="form-control" id="receiptFirstName" th:field="*{receiptFirstName}" placeholder="Leave empty to use billing name">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="receiptLastName" class="text-black">Patient Last Name</label>
+                                        <input type="text" class="form-control" id="receiptLastName" th:field="*{receiptLastName}" placeholder="Leave empty to use billing name">
                                     </div>
                                 </div>
 
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-5">
-                        <div class="col-md-12">
-                            <h2 class="h3 mb-3 text-black">Your Order</h2>
-                            <div class="p-3 p-lg-5 border">
-                                <table class="table site-block-order-table mb-5">
-                                    <thead>
-                                    <th>Product</th>
-                                    <th>Total</th>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="basket : ${baskets}">
-                                        <td>
-                                            <span th:text="${basket.product.name}">Product Name</span>
-                                            <strong class="mx-2">x</strong>
-                                            <span th:text="${basket.quantity}">1</span>
-                                        </td>
-                                        <td>
-                                            $<span th:text="${#numbers.formatDecimal(basket.product.price * basket.quantity, 1, 2)}">55.00</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                                        <td class="text-black">
-                                            $<span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}">350.00</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
-                                        <td class="text-black font-weight-bold">
-                                            <strong>$<span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}">350.00</span></strong>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                                <div class="border mb-3">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button"
-                                                           aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
-
-                                    <div class="collapse" id="collapsebank">
-                                        <div class="py-2 px-4">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
-                                                payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        <label for="receiptPhoneOperator" class="text-black">Phone Operator <span class="text-danger">*</span></label>
+                                        <select class="form-control" id="receiptPhoneOperator" th:field="*{receiptPhoneOperator}" required>
+                                            <option value="">Select Operator</option>
+                                            <option value="050">050</option>
+                                            <option value="051">051</option>
+                                            <option value="055">055</option>
+                                            <option value="070">070</option>
+                                            <option value="077">077</option>
+                                            <option value="099">099</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="receiptPhoneNumber" class="text-black">Phone Number <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="receiptPhoneNumber" th:field="*{receiptPhoneNumber}"
+                                               placeholder="1234567" pattern="[0-9]{7}" maxlength="7" required>
                                     </div>
                                 </div>
-
-                                <div class="border mb-3">
-                                    <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button"
-                                                           aria-expanded="false" aria-controls="collapsecheque">Cheque Payment</a></h3>
-
-                                    <div class="collapse" id="collapsecheque">
-                                        <div class="py-2 px-4">
-                                            <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
-                                                payment reference. Your order won’t be shipped until the funds have cleared in our account.</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-
 
                                 <div class="form-group">
-                                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='thankyou.html'">Place
-                                        Order</button>
+                                    <label class="text-black">Receipt Images <span class="text-danger">*</span></label>
+                                    <div class="receipt-upload-area" id="receiptUploadArea">
+                                        <i class="fas fa-cloud-upload-alt fa-3x text-muted mb-3"></i>
+                                        <p class="text-muted mb-2">Drop files here or click to upload</p>
+                                        <p class="small text-muted mb-3">Maximum 4 images, each up to 10MB (PNG, JPEG only)</p>
+                                        <input type="file" class="form-control-file" id="receiptImages" name="receiptImages"
+                                               multiple accept="image/png,image/jpeg,image/jpg" style="display: none;" required>
+                                        <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('receiptImages').click()">
+                                            <i class="fas fa-upload"></i> Choose Files
+                                        </button>
+                                    </div>
+                                    <div id="receiptPreview" class="receipt-preview"></div>
+                                    <div id="receiptError" class="mt-2"></div>
                                 </div>
 
+                                <div class="form-group">
+                                    <label for="receiptNotes" class="text-black">Additional Notes</label>
+                                    <textarea id="receiptNotes" cols="30" rows="3" class="form-control"
+                                              th:field="*{receiptNotes}" placeholder="Any additional information about the receipt..."></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="createAccount" class="text-black" data-toggle="collapse" href="#create_an_account"
+                                       role="button" aria-expanded="false" aria-controls="create_an_account">
+                                    <input type="checkbox" id="createAccount" th:field="*{createAccount}"> Create an account?
+                                </label>
+                                <div class="collapse" id="create_an_account">
+                                    <div class="py-2">
+                                        <p class="mb-3">Create an account by entering the information below. If you are a returning customer
+                                            please login at the top of the page.</p>
+                                        <div class="form-group">
+                                            <label for="password" class="text-black">Account Password</label>
+                                            <input type="password" class="form-control" id="password" th:field="*{password}"
+                                                   placeholder="Enter a password">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="orderNotes" class="text-black">Order Notes</label>
+                                <textarea id="orderNotes" cols="30" rows="5" class="form-control"
+                                          th:field="*{orderNotes}" placeholder="Write your notes here..."></textarea>
                             </div>
                         </div>
                     </div>
 
+                    <div class="col-md-6">
+                        <div class="row mb-5">
+                            <div class="col-md-12">
+                                <h2 class="h3 mb-3 text-black">Coupon Code</h2>
+                                <div class="p-3 p-lg-5 border">
+                                    <label for="couponCode" class="text-black mb-3">Enter your coupon code if you have one</label>
+                                    <div class="input-group w-75">
+                                        <input type="text" class="form-control" id="couponCode" placeholder="Coupon Code"
+                                               th:field="*{couponCode}" aria-label="Coupon Code" aria-describedby="button-addon2">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-primary btn-sm px-4" type="button" id="applyCouponBtn">Apply</button>
+                                        </div>
+                                    </div>
+                                    <div id="couponMessage" class="mt-2"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-5">
+                            <div class="col-md-12">
+                                <h2 class="h3 mb-3 text-black">Your Order</h2>
+                                <div class="p-3 p-lg-5 border">
+                                    <table class="table site-block-order-table mb-5">
+                                        <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Total</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="basket : ${baskets}">
+                                            <td>
+                                                <span th:text="${basket.product.name}">Product Name</span>
+                                                <span th:if="${basket.product.requiresReceipt}" class="receipt-required-badge">Receipt Required</span>
+                                                <strong class="mx-2">x</strong>
+                                                <span th:text="${basket.quantity}">1</span>
+                                            </td>
+                                            <td>
+                                                $<span th:text="${#numbers.formatDecimal(basket.totalPrice, 1, 2)}">55.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
+                                            <td class="text-black">
+                                                $<span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}">350.00</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-black font-weight-bold"><strong>Order Total</strong></td>
+                                            <td class="text-black font-weight-bold">
+                                                <strong>$<span th:text="${#numbers.formatDecimal(totalPrice, 1, 2)}">350.00</span></strong>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="border mb-3">
+                                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button"
+                                                               aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
+
+                                        <div class="collapse" id="collapsebank">
+                                            <div class="py-2 px-4">
+                                                <p class="mb-0">Make your payment directly into our bank account. Please use your Order ID as the
+                                                    payment reference. Your order won't be shipped until the funds have cleared in our account.</p>
+                                                <div class="form-check mt-2">
+                                                    <input class="form-check-input" type="radio" name="paymentMethod" id="bankTransfer"
+                                                           value="bank" th:field="*{paymentMethod}">
+                                                    <label class="form-check-label" for="bankTransfer">
+                                                        I'll pay via bank transfer
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="border mb-3">
+                                        <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsecheque" role="button"
+                                                               aria-expanded="false" aria-controls="collapsecheque">Credit Card Payment</a></h3>
+
+                                        <div class="collapse" id="collapsecheque">
+                                            <div class="py-2 px-4">
+                                                <p class="mb-0">Pay securely using your credit card. All major cards are accepted.</p>
+                                                <div class="form-check mt-2">
+                                                    <input class="form-check-input" type="radio" name="paymentMethod" id="cardPayment"
+                                                           value="card" th:field="*{paymentMethod}" checked>
+                                                    <label class="form-check-label" for="cardPayment">
+                                                        I'll pay with my credit card
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block" id="placeOrderBtn">Place Order</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <!-- </form> -->
+            </form>
+            <!-- Checkout form ends here -->
         </div>
     </div>
 
-
-    <div class="site-section bg-secondary bg-image" style="background-image: url('images/bg_2.jpg');">
+    <div class="site-section bg-secondary bg-image" style="background-image: url('/images/bg_2.jpg');">
         <div class="container">
             <div class="row align-items-stretch">
                 <div class="col-lg-6 mb-5 mb-lg-0">
-                    <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/bg_1.jpg');">
+                    <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('/images/bg_1.jpg');">
                         <div class="banner-1-inner align-self-center">
                             <h2>Pharma Products</h2>
                             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae ex ad minus rem odio voluptatem.
@@ -215,8 +370,8 @@
                     </a>
                 </div>
                 <div class="col-lg-6 mb-5 mb-lg-0">
-                    <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/bg_2.jpg');">
-                        <div class="banner-1-inner ml-auto  align-self-center">
+                    <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('/images/bg_2.jpg');">
+                        <div class="banner-1-inner ml-auto align-self-center">
                             <h2>Rated by Experts</h2>
                             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae ex ad minus rem odio voluptatem.
                             </p>
@@ -227,7 +382,174 @@
         </div>
     </div>
 
-</section>
+    <!-- JavaScript for file upload and form handling -->
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            // Coupon functionality
+            const applyCouponBtn = document.getElementById('applyCouponBtn');
+            const couponCodeInput = document.getElementById('couponCode');
+            const couponMessageDiv = document.getElementById('couponMessage');
 
+            if (applyCouponBtn) {
+                applyCouponBtn.addEventListener('click', function() {
+                    const couponCode = couponCodeInput.value.trim();
+                    if (!couponCode) {
+                        couponMessageDiv.innerHTML = '<div class="alert alert-warning">Please enter a coupon code</div>';
+                        return;
+                    }
+
+                    fetch('/checkout/apply-coupon?couponCode=' + encodeURIComponent(couponCode), {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="_csrf"]')?.content || ''
+                        }
+                    })
+                    .then(response => response.text())
+                    .then(data => {
+                        couponMessageDiv.innerHTML = '<div class="alert alert-info">' + data + '</div>';
+                    })
+                    .catch(error => {
+                        couponMessageDiv.innerHTML = '<div class="alert alert-danger">Error applying coupon</div>';
+                        console.error('Error:', error);
+                    });
+                });
+            }
+
+            // Receipt upload functionality
+            const receiptImages = document.getElementById('receiptImages');
+            const receiptPreview = document.getElementById('receiptPreview');
+            const receiptError = document.getElementById('receiptError');
+            const uploadArea = document.getElementById('receiptUploadArea');
+
+            if (receiptImages) {
+                receiptImages.addEventListener('change', function(e) {
+                    handleReceiptFiles(e.target.files);
+                });
+
+                // Drag and drop functionality
+                uploadArea.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    uploadArea.classList.add('dragover');
+                });
+
+                uploadArea.addEventListener('dragleave', function(e) {
+                    e.preventDefault();
+                    uploadArea.classList.remove('dragover');
+                });
+
+                uploadArea.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    uploadArea.classList.remove('dragover');
+                    const files = e.dataTransfer.files;
+                    receiptImages.files = files;
+                    handleReceiptFiles(files);
+                });
+
+                uploadArea.addEventListener('click', function(e) {
+                    if (e.target === uploadArea || e.target.closest('.receipt-upload-area') === uploadArea) {
+                        receiptImages.click();
+                    }
+                });
+            }
+
+            function handleReceiptFiles(files) {
+                receiptPreview.innerHTML = '';
+                receiptError.innerHTML = '';
+
+                if (files.length === 0) {
+                    return;
+                }
+
+                if (files.length > 4) {
+                    receiptError.innerHTML = '<div class="alert alert-warning">Maximum 4 images allowed. Only first 4 will be processed.</div>';
+                }
+
+                let validFiles = 0;
+                for (let i = 0; i < Math.min(files.length, 4); i++) {
+                    const file = files[i];
+
+                    // File size check (10MB)
+                    if (file.size > 10 * 1024 * 1024) {
+                        receiptError.innerHTML += '<div class="alert alert-warning">File "' + file.name + '" is too large (max 10MB)</div>';
+                        continue;
+                    }
+
+                    // File type check
+                    if (!file.type.match('image/(jpeg|jpg|png)')) {
+                        receiptError.innerHTML += '<div class="alert alert-warning">File "' + file.name + '" is not a valid image (PNG/JPEG only)</div>';
+                        continue;
+                    }
+
+                    validFiles++;
+
+                    // Create preview
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'receipt-preview-item';
+                        previewItem.innerHTML =
+                            '<img src="' + e.target.result + '" alt="Receipt preview">' +
+                            '<div class="receipt-preview-name">' + file.name + '</div>';
+                        receiptPreview.appendChild(previewItem);
+                    };
+                    reader.readAsDataURL(file);
+                }
+
+                if (validFiles > 0) {
+                    receiptError.innerHTML += '<div class="alert alert-success">' + validFiles + ' valid file(s) selected for upload</div>';
+                }
+            }
+
+            // Form validation for receipt upload
+            const form = document.querySelector('form');
+            const hasReceiptRequired = /*[[${hasReceiptRequiredProducts}]]*/ false;
+
+            if (form && hasReceiptRequired) {
+                form.addEventListener('submit', function(e) {
+                    const receiptImages = document.getElementById('receiptImages');
+                    const receiptPhoneOperator = document.getElementById('receiptPhoneOperator');
+                    const receiptPhoneNumber = document.getElementById('receiptPhoneNumber');
+
+                    let hasError = false;
+                    let errorMessage = '';
+
+                    if (!receiptImages.files || receiptImages.files.length === 0) {
+                        hasError = true;
+                        errorMessage += 'Receipt images are required for prescription products.\n';
+                    }
+
+                    if (!receiptPhoneOperator.value) {
+                        hasError = true;
+                        errorMessage += 'Phone operator is required.\n';
+                    }
+
+                    if (!receiptPhoneNumber.value || receiptPhoneNumber.value.length !== 7) {
+                        hasError = true;
+                        errorMessage += 'Valid 7-digit phone number is required.\n';
+                    }
+
+                    if (hasError) {
+                        e.preventDefault();
+                        alert('Please fix the following errors:\n\n' + errorMessage);
+                        return false;
+                    }
+                });
+            }
+
+            // Phone number input validation
+            const phoneInput = document.getElementById('receiptPhoneNumber');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function(e) {
+                    // Only allow numbers
+                    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                    // Limit to 7 digits
+                    if (e.target.value.length > 7) {
+                        e.target.value = e.target.value.substr(0, 7);
+                    }
+                });
+            }
+        });
+    </script>
+</section>
 </body>
 </html>

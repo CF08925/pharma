@@ -1,92 +1,237 @@
 <!DOCTYPE html>
-<html   xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{dashboard/layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{dashboard/layout}">
 <head>
-  <title>Page Title Goes Here</title>
+  <title>Products Management</title>
+  <style>
+    .receipt-badge {
+      font-size: 0.75em;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .receipt-required {
+      background-color: #dc3545;
+      color: white;
+    }
+    .receipt-not-required {
+      background-color: #6c757d;
+      color: white;
+    }
+    .product-image {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
+    }
+    .price-cell {
+      font-weight: 600;
+      color: #28a745;
+    }
+    .discount-price {
+      color: #dc3545;
+      font-weight: 600;
+    }
+    .original-price {
+      text-decoration: line-through;
+      color: #6c757d;
+      font-size: 0.9em;
+    }
+    .description-cell {
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .specification-cell {
+      max-width: 150px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  </style>
 </head>
 
 <body>
 <section layout:fragment="dashboard">
+  <!-- Page Heading -->
+  <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Products Management</h1>
+    <a href="/admin/products/create" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+      <i class="fas fa-plus fa-sm text-white-50"></i> Create New Product
+    </a>
+  </div>
+
   <!-- DataTales Example -->
   <div class="card shadow mb-4">
-    <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary">Products List</h6>
     </div>
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-          <a href="/admin/products/create">Create</a>
           <thead>
           <tr>
             <th>ID</th>
-            <th>Name</th>
             <th>Photo</th>
-            <th>priceDiscount</th>
-            <th>description</th>
-
-
-            <th>specification</th>
-            <th>price</th>
-
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Specification</th>
+            <th>Receipt Required</th>
+            <th>Featured</th>
+            <th>Actions</th>
           </tr>
           </thead>
           <tfoot>
           <tr>
             <th>ID</th>
-            <th>Name</th>
             <th>Photo</th>
-            <th>priceDiscount</th>
-            <th>description</th>
-
-
-            <th>specification</th>
-            <th>price</th>
-
+            <th>Name</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Specification</th>
+            <th>Receipt Required</th>
+            <th>Featured</th>
+            <th>Actions</th>
           </tr>
           </tfoot>
           <tbody>
           <tr th:each="product : ${products}">
-            <td th:text="${product.id}">System Architect</td>
-            <td th:text="${product.name}">Tiger Nixon</td>
-            <td th:src="${product.photoUrl}">Edinburgh</td>
+            <td th:text="${product.id}">1</td>
 
-            <td th:text="${product.priceDiscount}">System Architect</td>
-            <td th:text="${product.description}">Tiger Nixon</td>
-
-            <td th:text="${product.specification}">Edinburgh</td>
-            <td th:text="${product.price}">5</td>
+            <!-- Photo Column -->
             <td>
-              <button>Edit</button>
+              <img th:if="${product.photoUrl != null}"
+                   th:src="${product.photoUrl}"
+                   alt="Product Image"
+                   class="product-image">
+              <span th:if="${product.photoUrl == null}"
+                    class="text-muted">
+                <i class="fas fa-image"></i> No Image
+              </span>
+            </td>
 
+            <!-- Name Column -->
+            <td>
+              <strong th:text="${product.name}">Product Name</strong>
+            </td>
 
-              <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#deleteModal' + ${product.id}">
-                Delete
-              </button>
+            <!-- Price Column -->
+            <td class="price-cell">
+              <!-- Show discount price if available -->
+              <div th:if="${product.priceDiscount != null and product.priceDiscount > 0}">
+                <span class="discount-price">$<span th:text="${product.priceDiscount}">15.99</span></span><br>
+                <small class="original-price">$<span th:text="${product.price}">19.99</span></small>
+              </div>
+              <!-- Show regular price if no discount -->
+              <div th:if="${product.priceDiscount == null or product.priceDiscount == 0}">
+                $<span th:text="${product.price}">19.99</span>
+              </div>
+            </td>
 
-              <div class="modal fade" th:id="'deleteModal' + ${product.id}"  tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <!-- Description Column -->
+            <td class="description-cell" th:text="${product.description}" th:title="${product.description}">
+              Product description goes here...
+            </td>
+
+            <!-- Specification Column -->
+            <td class="specification-cell" th:text="${product.specification}" th:title="${product.specification}">
+              Product specifications...
+            </td>
+
+            <!-- Receipt Required Column -->
+            <td class="text-center">
+              <span th:if="${product.requiresReceipt}" class="badge receipt-badge receipt-required">
+                <i class="fas fa-prescription-bottle-alt"></i> Required
+              </span>
+              <span th:if="${!product.requiresReceipt}" class="badge receipt-badge receipt-not-required">
+                <i class="fas fa-times"></i> Not Required
+              </span>
+            </td>
+
+            <!-- Featured Column -->
+            <td class="text-center">
+              <span th:if="${product.featured}" class="badge badge-success">
+                <i class="fas fa-star"></i> Featured
+              </span>
+              <span th:if="${!product.featured}" class="badge badge-secondary">
+                <i class="far fa-star"></i> Regular
+              </span>
+            </td>
+
+            <!-- Actions Column -->
+            <td>
+              <div class="btn-group" role="group">
+                <!-- Edit Button -->
+                <button type="button" class="btn btn-info btn-sm" title="Edit Product">
+                  <i class="fas fa-edit"></i> Edit
+                </button>
+
+                <!-- Delete Button -->
+                <button type="button" class="btn btn-danger btn-sm"
+                        data-toggle="modal"
+                        th:attr="data-target='#deleteModal' + ${product.id}"
+                        title="Delete Product">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>
+
+              <!-- Delete Confirmation Modal -->
+              <div class="modal fade" th:id="'deleteModal' + ${product.id}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to delete this item?</h5>
+                      <h5 class="modal-title" id="deleteModalLabel">
+                        <i class="fas fa-exclamation-triangle text-warning"></i> Confirm Delete
+                      </h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
+                    <div class="modal-body">
+                      <div class="alert alert-warning">
+                        <strong>Warning!</strong> This action cannot be undone.
+                      </div>
+                      <p>Are you sure you want to delete this product?</p>
+                      <div class="card">
+                        <div class="card-body">
+                          <h6 th:text="${product.name}">Product Name</h6>
+                          <p class="text-muted small mb-1" th:text="${product.description}">Description</p>
+                          <p class="mb-1">
+                            <strong>Price: </strong>
+                            <span th:if="${product.priceDiscount != null and product.priceDiscount > 0}">
+                              <span class="text-danger">$<span th:text="${product.priceDiscount}">15.99</span></span>
+                              <small class="text-muted text-decoration-line-through ml-1">$<span th:text="${product.price}">19.99</span></small>
+                            </span>
+                            <span th:if="${product.priceDiscount == null or product.priceDiscount == 0}">
+                              $<span th:text="${product.price}">19.99</span>
+                            </span>
+                          </p>
+                          <p class="mb-0">
+                            <span th:if="${product.requiresReceipt}" class="badge badge-danger">Receipt Required</span>
+                            <span th:if="${product.featured}" class="badge badge-success ml-1">Featured</span>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <form th:action="'/admin/products/delete/'+${product.id}" method="post">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancel
+                      </button>
+                      <form th:action="'/admin/products/delete/'+${product.id}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">
+                          <i class="fas fa-trash"></i> Delete Product
+                        </button>
                       </form>
                     </div>
                   </div>
                 </div>
               </div>
-
-
             </td>
           </tr>
-
           </tbody>
         </table>
       </div>

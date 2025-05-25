@@ -1,16 +1,81 @@
 <!DOCTYPE html>
-<html   xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
 <head>
-
-
+    <title>Çek Yükləyin &mdash; Pharma</title>
 </head>
 
 <body>
 <section layout:fragment="layout">
-   
-</section>
+    <div style="padding: 50px; background: white; min-height: 600px; color: black;">
+        <h1>Çek Yükləyin</h1>
 
+        <!-- Success/Error Messages -->
+        <div th:if="${success}" style="background: #d4edda; color: #155724; padding: 15px; margin: 20px 0; border-radius: 5px;">
+            <span th:text="${success}"></span>
+        </div>
+
+        <div th:if="${error}" style="background: #f8d7da; color: #721c24; padding: 15px; margin: 20px 0; border-radius: 5px;">
+            <span th:text="${error}"></span>
+        </div>
+
+        <form action="/receipt/upload" method="post" enctype="multipart/form-data" th:object="${receiptCreateDto}">
+
+            <!-- Customer First Name -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Ad *</label>
+                <input type="text" th:field="*{firstName}" style="width: 300px; padding: 10px; border: 1px solid #ccc;" required />
+            </div>
+
+            <!-- Customer Last Name -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Soyad *</label>
+                <input type="text" th:field="*{lastName}" style="width: 300px; padding: 10px; border: 1px solid #ccc;" required />
+            </div>
+
+            <!-- Phone Number -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Telefon *</label>
+                <select th:field="*{phoneOperator}" style="padding: 10px; border: 1px solid #ccc;">
+                    <option value="010">010</option>
+                    <option value="012">012</option>
+                    <option value="050">050</option>
+                    <option value="051">051</option>
+                    <option value="055">055</option>
+                    <option value="070">070</option>
+                    <option value="077">077</option>
+                    <option value="099">099</option>
+                </select>
+                <input type="text" th:field="*{phoneNumber}" style="padding: 10px; border: 1px solid #ccc; margin-left: 5px;"
+                       maxlength="7" placeholder="1234567" required />
+            </div>
+
+            <!-- Customer Notes -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Qeyd</label>
+                <textarea th:field="*{notes}"
+                          style="width: 300px; height: 80px; padding: 10px; border: 1px solid #ccc;"
+                          placeholder="Əlavə məlumat (məcburi deyil)"></textarea>
+            </div>
+
+            <!-- Receipt Images -->
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: bold;">Çek şəkilləri *</label>
+                <input type="file" name="receiptImages" multiple accept="image/*" required style="padding: 10px;" />
+                <div style="font-size: 12px; color: #666; margin-top: 5px;">
+                    PNG və ya JPEG formatında, maksimum 4 ədəd, hər biri 10MB-dan az
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                    style="padding: 15px 30px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">
+                <i class="fas fa-upload"></i> Çek Yüklə
+            </button>
+        </form>
+    </div>
+</section>
 </body>
 </html>

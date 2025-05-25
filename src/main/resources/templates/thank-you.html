@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+  <title>Thank You</title>
+</head>
+<body>
+<section layout:fragment="layout">
+  <div class="site-section">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <span class="icon-check_circle display-3 text-success"></span>
+          <h2 class="display-3 text-black">Thank you!</h2>
+          <p class="lead mb-5">Your order has been placed successfully.</p>
+
+          <div th:if="${order != null}" class="text-left p-4 border mb-4">
+            <h3>Order Details</h3>
+            <p><strong>Order Number:</strong> <span th:text="${order.orderNumber}"></span></p>
+            <p><strong>Date:</strong> <span th:text="${#temporals.format(order.orderDate, 'dd-MM-yyyy HH:mm')}"></span></p>
+            <p><strong>Total:</strong> $<span th:text="${order.formattedTotal}"></span></p>
+            <p><strong>Shipping Address:</strong> <span th:text="${order.shippingAddress}"></span></p>
+            <p><strong>Payment Method:</strong> <span th:text="${order.paymentMethod}"></span></p>
+
+            <h4 class="mt-4">Order Items</h4>
+            <table class="table">
+              <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="item : ${order.items}">
+                <td th:text="${item.productName}">Product Name</td>
+                <td th:text="${item.quantity}">1</td>
+                <td>$<span th:text="${item.formattedUnitPrice}">10.00</span></td>
+                <td>$<span th:text="${item.formattedSubtotal}">10.00</span></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p><a href="/" class="btn btn-md height-auto px-4 py-3 btn-primary">Continue Shopping</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>

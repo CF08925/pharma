@@ -33,4 +33,16 @@ public class ProductCreateDto {
     public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
+
+    // Add this field after your existing fields
+    private boolean requiresReceipt;
+
+    // Getter and setter (or use Lombok @Data)
+    public boolean isRequiresReceipt() {
+        return requiresReceipt;
+    }
+
+    public void setRequiresReceipt(boolean requiresReceipt) {
+        this.requiresReceipt = requiresReceipt;
+    }
 }

@@ -59,4 +59,18 @@ public class Product {
     private String formatCents(Long cents) {
         return String.format("%d.%02d", cents / 100, cents % 100);
     }
+
+
+    // Add this field after your existing fields
+    @Column(name = "requires_receipt", nullable = false)
+    private boolean requiresReceipt = false;
+
+    // Add these getter and setter methods
+    public boolean isRequiresReceipt() {
+        return requiresReceipt;
+    }
+
+    public void setRequiresReceipt(boolean requiresReceipt) {
+        this.requiresReceipt = requiresReceipt;
+    }
 }

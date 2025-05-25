@@ -98,4 +98,18 @@ public class Order {
     public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
+
+    // Add this field after your existing fields
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "receipt_id")
+    private Receipt receipt;
+
+    // Add these getter and setter methods
+    public Receipt getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(Receipt receipt) {
+        this.receipt = receipt;
+    }
 }

@@ -18,4 +18,15 @@ public class ProductDto {
     private Double price;
     private Double priceDiscount;
     private String photoUrl;
+
+    private boolean requiresReceipt;
+
+    // Getter and setter (or use Lombok @Data)
+    public boolean isRequiresReceipt() {
+        return requiresReceipt;
+    }
+
+    public void setRequiresReceipt(boolean requiresReceipt) {
+        this.requiresReceipt = requiresReceipt;
+    }
 }

@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         String password = passwordEncoder.encode(registerDto.getPassword());
         newUser.setEmailToken(generatedString);
         newUser.setPhotoUrl("https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_1280.png");
-        newUser.setEmailConfirmed(false);
+        newUser.setEmailConfirmed(true);
         newUser.setPassword(password);
         userRepository.save(newUser);
         return true;

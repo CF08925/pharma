@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+
+<head>
+  <title>Çek Uğurla Yükləndi &mdash; Pharma</title>
+</head>
+
+<body>
+<section layout:fragment="layout">
+  <div class="container" style="max-width: 600px; margin: 100px auto; text-align: center;">
+    <div class="card shadow" style="padding: 40px;">
+      <i class="fas fa-check-circle" style="font-size: 64px; color: #28a745; margin-bottom: 20px;"></i>
+      <h2 style="color: #2c3e50; margin-bottom: 20px;">Çek Uğurla Yükləndi!</h2>
+      <p style="color: #7f8c8d; margin-bottom: 30px;">
+        Çek şəkilləriniz uğurla sistem əlavə edildi. Çekiniz yoxlanıldıqdan sonra sizə məlumat veriləcək.
+      </p>
+      <div style="margin-bottom: 30px;">
+        <a href="/my-receipts" class="btn btn-primary">Çeklərimə Bax</a>
+        <a href="/receipt" class="btn btn-secondary" style="margin-left: 10px;">Yeni Çek Yüklə</a>
+      </div>
+      <p style="color: #95a5a6; font-size: 14px;">
+        Çek ID: <span th:text="${receiptId}">123</span>
+      </p>
+    </div>
+  </div>
+</section>
+</body>
+</html>

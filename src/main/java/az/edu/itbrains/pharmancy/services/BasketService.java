@@ -12,7 +12,9 @@ public interface BasketService {
 
     List<BasketDto> getUserBaskets();
 
-
+    // Add these methods to your existing interface
+    void clearUserBasket(String userEmail);
+    boolean hasReceiptRequiredProducts();
 
 
 }

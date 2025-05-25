@@ -16,4 +16,16 @@ public class ProductBasketDto {
     private String photoUrl;
     private Double price;
     private Double priceDiscount;
+
+    // Add this field after your existing fields
+    private boolean requiresReceipt;
+
+    // Getter and setter (or use Lombok @Data)
+    public boolean isRequiresReceipt() {
+        return requiresReceipt;
+    }
+
+    public void setRequiresReceipt(boolean requiresReceipt) {
+        this.requiresReceipt = requiresReceipt;
+    }
 }

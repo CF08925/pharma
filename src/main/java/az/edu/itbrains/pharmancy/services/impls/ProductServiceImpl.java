@@ -49,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
             product.setPrice((long) productCreateDto.getPrice());
             product.setPriceDiscount((long) productCreateDto.getPriceDiscount());
             product.setFeatured(productCreateDto.isFeatured());
+            product.setRequiresReceipt(productCreateDto.isRequiresReceipt()); // ADD THIS LINE
             product.setPhotoUrl(photoUrl);
             product.setCreateData(new Date());
 

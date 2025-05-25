@@ -5,6 +5,7 @@ import az.edu.itbrains.pharmancy.dtos.about.AboutDto;
 import az.edu.itbrains.pharmancy.dtos.category.CategoryHomeDto;
 import az.edu.itbrains.pharmancy.dtos.product.ProductDto;
 import az.edu.itbrains.pharmancy.dtos.product.ProductHomeFeaturedDto;
+import az.edu.itbrains.pharmancy.dtos.receipt.ReceiptCreateDto;
 import az.edu.itbrains.pharmancy.dtos.team.TeamDto;
 import az.edu.itbrains.pharmancy.dtos.testimonial.TestimonialDto;
 import az.edu.itbrains.pharmancy.models.Testimonial;
@@ -64,9 +65,15 @@ public class HomeController {
         return "about.html";
     }
 
-    @GetMapping("/receipt")
-    public String receipt(){
-        return "receipt.html";
-    }
+//    @GetMapping("/receipt")
+//    public String receipt(){
+//        return "receipt.html";
+//    }
+//
+//    @GetMapping("/receipt")
+//    public String receipt(Model model){
+//        model.addAttribute("receiptCreateDto", new ReceiptCreateDto());
+//        return "receipt.html";
+//    }
 
 }

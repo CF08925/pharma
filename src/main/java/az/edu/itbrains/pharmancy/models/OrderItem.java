@@ -37,4 +37,16 @@ public class OrderItem {
     public Long getSavings() {
         return (unitPriceOriginal - unitPrice) * quantity;
     }
+
+
+    // Add these methods to OrderItem.java
+    public String getFormattedUnitPrice() {
+        return String.format("$%.2f", unitPrice / 100.0);
+    }
+
+    public String getFormattedSubtotal() {
+        return String.format("$%.2f", (unitPrice * quantity) / 100.0);
+    }
+
+
 }
